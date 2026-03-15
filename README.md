@@ -6,3 +6,8 @@ Next: UI skeleton
 Added Login and Signup forms using localStorage.
   - Implemented Logout button in Navbar.
   - Created Home page skeleton with placeholders for Transaction Form and History List.
+
+Add income & expenses
+Transaction history
+State management with Redux Toolkit
+Responsive UI with TailwindCSS
