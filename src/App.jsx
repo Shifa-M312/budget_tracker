@@ -8,17 +8,22 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [showSignup, setShowSignup] = useState(false)
 
+  // Check login state from localStorage
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn")
     if (loggedIn === "true") setIsLoggedIn(true)
   }, [])
 
+  // If user is not logged in
   if (!isLoggedIn) {
     return showSignup ? (
       <Signup onSignup={() => setShowSignup(false)} />
     ) : (
-      <div>
-        <Login onLogin={() => setIsLoggedIn(true)} />
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+        <Login onLogin={() => {
+          setIsLoggedIn(true)
+          localStorage.setItem("isLoggedIn", "true")
+        }} />
         <p className="text-center mt-4">
           New user?{" "}
           <button
@@ -32,9 +37,13 @@ function App() {
     )
   }
 
+  // If user is logged in
   return (
     <div className="min-h-screen bg-gray-100">
-      <Navbar onLogout={() => setIsLoggedIn(false)} />
+      <Navbar onLogout={() => {
+        setIsLoggedIn(false)
+        localStorage.setItem("isLoggedIn", "false")
+      }} />
       <Home />
     </div>
   )
