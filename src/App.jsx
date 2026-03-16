@@ -1,52 +1,69 @@
-import { useState, useEffect } from "react"
-import Login from "./components/Login"
-import Signup from "./components/Signup"
-import Navbar from "./components/Navbar"
-import Home from "./pages/Home"
+import { useState, useEffect } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import Transactions from "./pages/Transactions";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [showSignup, setShowSignup] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState("");
 
-  // Check login state from localStorage
   useEffect(() => {
-    const loggedIn = localStorage.getItem("isLoggedIn")
-    if (loggedIn === "true") setIsLoggedIn(true)
-  }, [])
+    const loggedIn = localStorage.getItem("isLoggedIn");
+    const user = localStorage.getItem("currentUser");
+    if (loggedIn === "true" && user) {
+      setIsLoggedIn(true);
+      setCurrentUser(user);
+    }
+  }, []);
 
-  // If user is not logged in
-  if (!isLoggedIn) {
-    return showSignup ? (
-      <Signup onSignup={() => setShowSignup(false)} />
-    ) : (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-        <Login onLogin={() => {
-          setIsLoggedIn(true)
-          localStorage.setItem("isLoggedIn", "true")
-        }} />
-        <p className="text-center mt-4">
-          New user?{" "}
-          <button
-            onClick={() => setShowSignup(true)}
-            className="text-blue-600 underline"
-          >
-            Sign Up
-          </button>
-        </p>
-      </div>
-    )
-  }
+  const handleLogin = (username) => {
+    setIsLoggedIn(true);
+    setCurrentUser(username);
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("currentUser", username);
+  };
 
-  // If user is logged in
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setCurrentUser("");
+    localStorage.setItem("isLoggedIn", "false");
+    localStorage.removeItem("currentUser");
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100">
-      <Navbar onLogout={() => {
-        setIsLoggedIn(false)
-        localStorage.setItem("isLoggedIn", "false")
-      }} />
-      <Home />
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      {isLoggedIn && (
+        <div className="relative z-50">
+          <Navbar onLogout={handleLogout} username={currentUser} />
+        </div>
+      )}
+
+      <main className="flex-grow container mx-auto p-4 lg:p-8">
+        <Routes>
+          <Route
+            path="/"
+            element={isLoggedIn ? <Home /> : <Navigate to="/login" replace />}
+          />
+          <Route
+            path="/transactions"
+            element={isLoggedIn ? <Transactions /> : <Navigate to="/login" replace />}
+          />
+          <Route
+            path="/login"
+            element={!isLoggedIn ? <Login onLogin={handleLogin} /> : <Navigate to="/" replace />}
+          />
+          <Route
+            path="/signup"
+            element={!isLoggedIn ? <Signup /> : <Navigate to="/" replace />}
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

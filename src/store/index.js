@@ -1,4 +1,3 @@
-import { configureStore } from "@reduxjs/toolkit";
 import transactionsReducer from "./transactionsSlice";
 
 const store = configureStore({
@@ -6,5 +5,3 @@ const store = configureStore({
     transactions: transactionsReducer,
   },
 });
-
-export default store;

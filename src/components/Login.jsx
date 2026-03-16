@@ -1,43 +1,70 @@
-import { useState } from "react"
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 
 function Login({ onLogin }) {
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    const storedUser = JSON.parse(localStorage.getItem("user"))
+  const handleLogin = (e) => {
+    e.preventDefault();
 
-    if (storedUser && storedUser.username === username && storedUser.password === password) {
-      localStorage.setItem("isLoggedIn", "true")
-      onLogin()
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+
+    const storedUser = users.find(
+      (u) => u.username === username && u.password === password
+    );
+
+    if (storedUser) {
+      onLogin(storedUser.username);
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("currentUser", storedUser.username);
+      navigate("/");
     } else {
-      alert("Invalid credentials or user not registered")
+      setError("Invalid username or password.");
     }
-  }
+  };
 
   return (
-    <form onSubmit={handleSubmit} className="p-6 bg-white shadow rounded max-w-sm mx-auto mt-10">
-      <h2 className="text-xl font-bold mb-4">Login</h2>
-      <input
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        className="w-full p-2 border rounded mb-2"
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        className="w-full p-2 border rounded mb-2"
-      />
-      <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded">
-        Login
-      </button>
-    </form>
-  )
+    <div className="flex items-center justify-center min-h-screen">
+      <form
+        onSubmit={handleLogin}
+        className="p-8 bg-white shadow-xl rounded-2xl w-96 border border-gray-100"
+      >
+        <h2 className="text-3xl font-black mb-6 text-blue-600">Welcome Back</h2>
+
+        {error && <p className="text-red-500 mb-4 text-sm">{error}</p>}
+
+        <input
+          type="text"
+          placeholder="Username"
+          required
+          className="w-full p-3 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          required
+          className="w-full p-3 mb-6 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition"
+        >
+          Login
+        </button>
+        <p className="mt-4 text-center text-sm text-gray-500">
+          New here?{" "}
+          <Link to="/signup" className="text-blue-600 font-bold hover:underline">
+            Sign Up
+          </Link>
+        </p>
+      </form>
+    </div>
+  );
 }
 
-export default Login
+export default Login;
