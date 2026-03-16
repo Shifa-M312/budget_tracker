@@ -18,3 +18,10 @@ Responsive design tested on mobile and desktop.
 UI polish completed (hover effects, gradients, animations).
 Bug fixes applied after testing
 Final testing before submission.
+- Add income & expense transactions
+- Transaction history with search & filter
+- State management using Redux Toolkit
+- Responsive UI with TailwindCSS
+- Interactive Pie chart for Income vs Expense
+- Budget view with category breakdown
+- Smooth animations, hover effects, and gradient cards
