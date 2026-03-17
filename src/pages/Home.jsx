@@ -37,6 +37,15 @@ function Home() {
     ],
   };
 
+  const pieOptions = {
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "bottom",
+      },
+    },
+  };
+
   return (
     <main className="pt-20 px-4">
       {/* Added pt-20 so content sits below Navbar */}
@@ -68,7 +77,9 @@ function Home() {
                       transform transition duration-300 hover:scale-105 hover:shadow-xl 
                       border-2 border-transparent hover:border-gray-300 hover:shadow-gray-400/50">
         <h2 className="font-semibold mb-4">Income vs Expense</h2>
-        <Pie data={pieData} />
+        <div className="w-56 h-56 mx-auto"> {/* Smaller container */}
+          <Pie data={pieData} options={pieOptions} />
+        </div>
       </div>
 
       {/* Budget view section */}

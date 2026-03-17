@@ -33,7 +33,6 @@ function Transactions() {
       currency: "INR",
     }).format(amt);
 
-  
   const handleAddCategory = () => {
     if (newCategory.trim()) {
       dispatch(addCategory(newCategory));
@@ -42,12 +41,10 @@ function Transactions() {
   };
 
   return (
-    <div className="p-6 space-y-6">
-      
+    <div className="pt-20 p-6 space-y-6">
       <h1 className="text-2xl font-bold text-gray-800 mb-4">
         Transactions Dashboard
       </h1>
-
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-green-100 p-4 rounded shadow text-center">
@@ -70,7 +67,6 @@ function Transactions() {
         </div>
       </div>
 
-      
       <div className="bg-white p-4 rounded shadow-md">
         <h2 className="text-lg font-semibold mb-2">Manage Categories</h2>
         <div className="flex gap-2">
@@ -93,9 +89,7 @@ function Transactions() {
         </div>
       </div>
 
-      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        
         <div className="bg-white p-4 rounded shadow-md">
           <h2 className="text-lg font-semibold mb-2">Add Transaction</h2>
           <TransactionForm />
