@@ -1,7 +1,7 @@
 #  Budget Insights & Expense Tracker
 
 ##  Live Demo
-[https://yourproject.vercel.app](https://yourproject.vercel.app)
+https://budgettracker-rouge.vercel.app/login
 
 ##  Description
 This is a smart expense tracking app built with **React, Vite, and Tailwind CSS**.  
